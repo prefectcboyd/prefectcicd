@@ -61,7 +61,7 @@ def create_deployment():
         work_pool_name=WORK_POOL,
         work_queue_name="default",
         infra_overrides=infra_overrides,
-        path="/src",
+        path="/",
         storage=create_block(),
         entrypoint=f"flow.py:{FLOW_NAME}",
     )

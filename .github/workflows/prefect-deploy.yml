@@ -47,7 +47,7 @@ jobs:
     # Prefect Deployment using deployment.py
     - name: Run Prefect Deployment
       run: |
-        python deployment.py
+        python scripts/deployment.py
       # Replace 'path/to/your/flow.py' with the path to your Prefect flow.
 
     # # Prefect Deployment using prefect.yaml

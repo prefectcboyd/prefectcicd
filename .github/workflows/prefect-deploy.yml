@@ -4,12 +4,14 @@ name: Prefect Deployment
 env:
   PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
   PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
+  PROD_WORKSPACE: ${{ secrets.PROD_WORKSPACE }}
+  DEV_WORKSPACE: ${{ secrets.DEV_WORKSPACE }}
 
 on:
   push:
     branches: [ main, feature-* ]
-    paths:
-      - '**/**.py'
+    # paths:
+    #   - '**/**.py'
 
 jobs:
   deploy:
@@ -43,11 +45,12 @@ jobs:
       if: startsWith(github.ref, 'refs/heads/feature-')
 
     # Prefect Deployment using deployment.py
-    - name: Create Prefect Deployment
-      run: prefect deployment create path/to/your/flow.py
+    - name: Run Prefect Deployment
+      run: |
+        python deployment.py
       # Replace 'path/to/your/flow.py' with the path to your Prefect flow.
 
-    # Prefect Deployment using prefect.yaml
-    - name: Create Prefect Deployment
-      run: prefect deployment create path/to/your/flow.py
-      # Replace 'path/to/your/flow.py' with the path to your Prefect flow.
+    # # Prefect Deployment using prefect.yaml
+    # - name: Create Prefect Deployment
+    #   run: prefect deployment create path/to/your/flow.py
+    #   # Replace 'path/to/your/flow.py' with the path to your Prefect flow.

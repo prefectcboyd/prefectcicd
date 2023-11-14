@@ -23,7 +23,7 @@ GCP_PROJECT_ID = environ.get("GCP_PROJECT_ID", "fallback")
 GCP_RESULTS_BUCKET = environ.get("GCP_RESULTS_BUCKET", f"{GCP_PROJECT_ID}-prefect-results")
 PYTHON_VERSION = ".".join(environ.get("PYTHON_VERSION", "3.10").split(".")[:2])
 PREFECT_VERSION = environ.get("PREFECT_VERSION", "2.14.3")
-DEPLOYMENT_NAME = f"{FLOW_NAME}_{TIER_ENVIRONMENT.replace('-', '_')}"
+DEPLOYMENT_NAME = f"{hello_world.__name__}_{TIER_ENVIRONMENT.replace('-', '_')}"
 BLOCK_NAME = f'{FLOW_NAME}_{environ.get("GITHUB_REF", "dev")}'
 
 def main():
@@ -64,7 +64,7 @@ def create_deployment():
         infra_overrides=infra_overrides,
         path="/",
         storage=create_block(),
-        entrypoint=f"flow.py:{FLOW_NAME}",
+        entrypoint=f"flow.py:hello_world",
     )
     uuid = deployment.apply()
     print(f"Saved deployment {DEPLOYMENT_NAME}: {uuid}")

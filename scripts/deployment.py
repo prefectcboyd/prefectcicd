@@ -5,7 +5,8 @@ from prefect.deployments import Deployment
 from main_flow import hello_world
 from prefect.filesystems import GitHub
 
-sys.path.insert(0, path.abspath(path.join(path.dirname(__file__), "../src")))
+# sys.path.insert(0, path.abspath(path.join(path.dirname(__file__), "../src")))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
 # Verify Environment Variables
 print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
@@ -59,7 +60,7 @@ def create_deployment():
         work_pool_name=WORK_POOL,
         work_queue_name="default",
         infra_overrides=infra_overrides,
-        path="/",
+        path="/src",
         storage=create_block(),
         entrypoint=f"flow.py:{FLOW_NAME}",
     )

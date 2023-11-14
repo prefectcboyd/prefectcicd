@@ -22,3 +22,4 @@ def hello_world():
 if __name__ == "__main__":
     hello_world()
     time.sleep(300)
+    print("test)")

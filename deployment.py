@@ -1,5 +1,6 @@
 """Deployment script for Prefect2 (Kubernetes Job block + Prefect Deployment)."""
 import sys
+import os
 from os import environ, path
 from prefect.deployments import Deployment
 from main_flow import hello_world

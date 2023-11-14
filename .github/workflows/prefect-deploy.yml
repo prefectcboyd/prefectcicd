@@ -43,11 +43,14 @@ jobs:
         prefect cloud workspace set -w ${{ env.DEV_WORKSPACE }}
         echo "WORK_POOL=dev" >> $GITHUB_ENV
       if: startsWith(github.ref, 'refs/heads/feature-')
-
+  
     # Prefect Deployment using deployment.py
     - name: Run Prefect Deployment
       run: |
         python deployment.py
+
+    env:
+      BRANCH_REF: ${{ github.ref }}
       # Replace 'path/to/your/flow.py' with the path to your Prefect flow.
 
     # # Prefect Deployment using prefect.yaml

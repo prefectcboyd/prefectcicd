@@ -7,6 +7,7 @@ from prefect.filesystems import GitHub
 
 # sys.path.insert(0, path.abspath(path.join(path.dirname(__file__), "../src")))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Verify Environment Variables
 print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")

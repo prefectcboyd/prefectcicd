@@ -24,7 +24,7 @@ GCP_RESULTS_BUCKET = environ.get("GCP_RESULTS_BUCKET", f"{GCP_PROJECT_ID}-prefec
 PYTHON_VERSION = ".".join(environ.get("PYTHON_VERSION", "3.10").split(".")[:2])
 PREFECT_VERSION = environ.get("PREFECT_VERSION", "2.14.3")
 DEPLOYMENT_NAME = f"{hello_world.__name__}_{TIER_ENVIRONMENT.replace('-', '_')}"
-BLOCK_NAME = f'{FLOW_NAME}_{environ.get("GITHUB_REF", "dev")}'
+BLOCK_NAME = f'{hello_world.__name__}_{environ.get("GITHUB_REF", "dev")}'
 
 def main():
     """Main function."""

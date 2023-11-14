@@ -23,7 +23,7 @@ GCP_PROJECT_ID = environ.get("GCP_PROJECT_ID", "fallback")
 GCP_RESULTS_BUCKET = environ.get("GCP_RESULTS_BUCKET", f"{GCP_PROJECT_ID}-prefect-results")
 PYTHON_VERSION = ".".join(environ.get("PYTHON_VERSION", "3.10").split(".")[:2])
 PREFECT_VERSION = environ.get("PREFECT_VERSION", "2.14.3")
-DEPLOYMENT_NAME = f"{hello_world.__name__}_{TIER_ENVIRONMENT.replace('-', '_')}"
+DEPLOYMENT_NAME = f"{hello_world.__name__.replace('-', '_')}-{TIER_ENVIRONMENT.replace('-', '_')}"
 
 
 
@@ -35,8 +35,8 @@ def main():
 def create_block():
     
     BRANCH_REF = os.environ.get("BRANCH_REF", "branchrefnotset").split('/')[-1]
-    BLOCK_NAME = f'{hello_world.__name__}_{BRANCH_REF}'
-    print(f"Creating block {BLOCK_NAME}...")
+    BLOCK_NAME = f'{hello_world.__name__.replace('-', '_')}-{BRANCH_REF.replace('-', '_')}'
+    print(f"Creating block {BLOCK_NAME}")
     print(f"BRANCH_REF: {BRANCH_REF}")
     block = GitHub(
         reference=BRANCH_REF,
@@ -49,7 +49,7 @@ def create_block():
 
 def create_deployment():
     """Create deployment."""
-    print(f"Creating deployment {DEPLOYMENT_NAME}...")
+    print(f"Creating deployment: {DEPLOYMENT_NAME}")
 
     environment = {
         "WORK_POOL": WORK_POOL,

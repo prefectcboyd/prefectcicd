@@ -8,8 +8,8 @@ env:
 on:
   push:
     branches: [ main, feature-* ]
-    # paths:
-    #   - 'src/**.py'
+    paths:
+      - '**/**.py'
 
 jobs:
   deploy:
@@ -28,7 +28,7 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        pip install prefect
+        pip install -r requirements.txt
 
     - name: Switch to prod workspace
       run: |

@@ -36,15 +36,17 @@ def create_block():
     
     BRANCH_REF = os.environ.get("BRANCH_REF", "branchrefnotset").split('/')[-1]
     BLOCK_NAME = f'{hello_world.__name__}-{BRANCH_REF}'.replace('_', '-')
+
     print(f"Creating block {BLOCK_NAME}")
     print(f"BRANCH_REF: {BRANCH_REF}")
+
     block = GitHub(
         reference=BRANCH_REF,
         repository="https://github.com/prefectcboyd/prefectcicd.git"
     )
+
     # block.get_directory("folder-in-repo") # specify a subfolder of repo
-    block.save(BLOCK_NAME)
-    print(f"Saved block {BLOCK_NAME}")
+    block.save(BLOCK_NAME, overwrite=True)
     return block
 
 def create_deployment():

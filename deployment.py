@@ -33,12 +33,14 @@ def main():
 
 
 def create_block():
+    print(f"Creating block {BLOCK_NAME}...")
     block = GitHub(
         reference=BRANCH_REF,
         repository="https://github.com/prefectcboyd/prefectcicd.git"
     )
     # block.get_directory("folder-in-repo") # specify a subfolder of repo
     block.save(BLOCK_NAME)
+    print(f"Saved block {BLOCK_NAME}")
     return block
 
 def create_deployment():

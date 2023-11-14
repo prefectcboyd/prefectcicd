@@ -25,7 +25,7 @@ PYTHON_VERSION = ".".join(environ.get("PYTHON_VERSION", "3.10").split(".")[:2])
 PREFECT_VERSION = environ.get("PREFECT_VERSION", "2.14.3")
 DEPLOYMENT_NAME = f"{hello_world.__name__}_{TIER_ENVIRONMENT.replace('-', '_')}"
 BLOCK_NAME = f'{hello_world.__name__}_{environ.get("GITHUB_REF", "dev")}'
-BRANCH_REF = os.environ.get("BRANCH_REF", "branchrefnotset").split('/')[-1]
+
 
 def main():
     """Main function."""
@@ -33,9 +33,12 @@ def main():
 
 
 def create_block():
+
+    BRANCH_REF = os.environ.get("BRANCH_REF", "branchrefnotset")
     print(f"Creating block {BLOCK_NAME}...")
+    print(f"BRANCH_REF: {BRANCH_REF.split('/')[-1]}")
     block = GitHub(
-        reference=BRANCH_REF,
+        reference=BRANCH_REF.split('/')[-1],
         repository="https://github.com/prefectcboyd/prefectcicd.git"
     )
     # block.get_directory("folder-in-repo") # specify a subfolder of repo

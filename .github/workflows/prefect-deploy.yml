@@ -8,8 +8,8 @@ env:
 on:
   push:
     branches: [ main, feature-* ]
-    paths:
-      - 'src/**.py'
+    # paths:
+    #   - 'src/**.py'
 
 jobs:
   deploy:

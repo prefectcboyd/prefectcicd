@@ -1,5 +1,4 @@
-name: Prefect Deployment
-
+name: Prefect Build From .deploy
 
 env:
   PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
@@ -9,9 +8,9 @@ env:
 
 on:
   push:
-    branches: [ main, feature-* ]
-    # paths:
-    #   - '**/**.py'
+    branches: [ feature-* ]
+    paths:
+      - '**.py'
 
 jobs:
   deploy:
@@ -19,8 +18,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Checks out the code repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Check out repository
       uses: actions/checkout@v3
+
 
     - name: Set up Python Python 3.10
       uses: actions/setup-python@v4
@@ -44,16 +45,18 @@ jobs:
         echo "WORK_POOL=dev" >> $GITHUB_ENV
       if: startsWith(github.ref, 'refs/heads/feature-')
   
-    # Prefect Deployment using deployment.py
-    - name: Run Prefect Deployment
+    - name: Find and Run Changed Python Files
       run: |
-        python deployment.py
+        # Check for modified Python files
+        files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '\.py$')
+        echo "Changed Python files: $files"
+        
+        for file in $files; do
+          if grep -q '.deploy()' "$file"; then
+            echo "Running $file"
+            python $file
+          fi
+        done
 
     env:
       BRANCH_REF: ${{ github.ref }}
-      # Replace 'path/to/your/flow.py' with the path to your Prefect flow.
-
-    # # Prefect Deployment using prefect.yaml
-    # - name: Create Prefect Deployment
-    #   run: prefect deployment create path/to/your/flow.py
-    #   # Replace 'path/to/your/flow.py' with the path to your Prefect flow.

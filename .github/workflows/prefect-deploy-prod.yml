@@ -1,15 +1,14 @@
-name: Prefect Deployment
-
+name: Prefect Build From Flow Deployment
 
 env:
   PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
   PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
+  PROD_WORKSPACE: ${{ secrets.PROD_WORKSPACE }}
+  DEV_WORKSPACE: ${{ secrets.DEV_WORKSPACE }}
 
 on:
   push:
-    branches: [ main, feature-* ]
-    paths:
-      - 'src/**.py'
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -17,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Checks out the code repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Check out repository
       uses: actions/checkout@v3
 
@@ -28,7 +28,7 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        pip install prefect
+        pip install -r requirements.txt
 
     - name: Switch to prod workspace
       run: |
@@ -41,13 +41,11 @@ jobs:
         prefect cloud workspace set -w ${{ env.DEV_WORKSPACE }}
         echo "WORK_POOL=dev" >> $GITHUB_ENV
       if: startsWith(github.ref, 'refs/heads/feature-')
-
+  
     # Prefect Deployment using deployment.py
-    - name: Create Prefect Deployment
-      run: prefect deployment create path/to/your/flow.py
-      # Replace 'path/to/your/flow.py' with the path to your Prefect flow.
+    - name: Run Prefect Deployment
+      run: |
+        python deployment.py
 
-    # Prefect Deployment using prefect.yaml
-    - name: Create Prefect Deployment
-      run: prefect deployment create path/to/your/flow.py
-      # Replace 'path/to/your/flow.py' with the path to your Prefect flow.
+    env:
+      BRANCH_REF: ${{ github.ref }}

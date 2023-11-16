@@ -60,20 +60,15 @@ jobs:
         echo "WORK_POOL=dev" >> $GITHUB_ENV
       if: startsWith(github.ref, 'refs/heads/feature-')
 
-    - name: Determine Current Branch
-      id: get-branch
-      run: echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
-      
-    - name: Find Base Commit for Comparison
-      id: base-commit
-      run: echo "::set-output name=sha::$(git merge-base HEAD origin/${{ steps.get-branch.outputs.branch }})"
-  
+    - name: Get changed python files
+      id: changed-python-files
+      uses: tj-actions/changed-files@v40
+      with:
+        files: '**/*.py'
+
     - name: Find and Run Changed Python Files
       run: |
-        changed_files=$(git diff --name-only ${{ steps.base-commit.outputs.sha }} | grep '\.py$')
-        echo "Changed Python files: $files"
-        
-        for file in $files; do
+        for file in ${{ steps.changed-python-files.outputs.all_changed_files }}; do
             echo "Running $file"
             python $file
         done

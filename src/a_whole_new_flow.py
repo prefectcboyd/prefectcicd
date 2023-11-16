@@ -28,7 +28,10 @@ def get_random_pun():
 if __name__ == "__main__":
     TIER = environ.get('WORK_POOL', 'dev')
     flow.from_source(
-        "https://github.com/prefectcboyd/prefectcicd.git",
+        source=GitRepository(
+            url="https://github.com/prefectcboyd/prefectcicd.git",
+            branch=environ.get("BRANCH_REF", "branchrefnotset").split('/')[-1]
+        ),
         entrypoint="src/a_whole_new_flow.py:get_random_pun",
     ).deploy(
         name=f"a_whole_new_flow_{TIER}",

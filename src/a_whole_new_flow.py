@@ -23,7 +23,6 @@ def get_random_pun():
         logger.error(f"Error: {e}")
         return f"Error: {e}"
 
-# Example usage
 
 if __name__ == "__main__":
     TIER = environ.get('WORK_POOL', 'dev')

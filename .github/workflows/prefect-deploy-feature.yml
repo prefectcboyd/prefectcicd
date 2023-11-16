@@ -32,27 +32,6 @@ jobs:
       run: |
         pip install -r requirements.txt
 
-####### PROD #######
-    - name: Switch to prod workspace
-      run: |
-        prefect cloud workspace set -w ${{ env.PROD_WORKSPACE }}
-        echo "WORK_POOL=prod" >> $GITHUB_ENV
-      if: github.ref == 'refs/heads/main'
-
-    - name: Find and Run Changed Python Files
-      run: |
-        # Check for modified Python files
-        files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '\.py$')
-        echo "Changed Python files: $files"
-        
-        for file in $files; do
-          if grep -q '.deploy()' "$file"; then
-            echo "Running $file"
-            python $file
-          fi
-        done
-      if: github.ref == 'refs/heads/main'
-
 ####### DEV #######
     - name: switch to dev
       run: |

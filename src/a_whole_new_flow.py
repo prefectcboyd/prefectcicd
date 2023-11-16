@@ -2,6 +2,7 @@ import requests
 import json
 from prefect import flow, get_run_logger
 from os import environ
+from prefect.runner.storage import GitRepository
 
 @flow
 def get_random_pun():
@@ -23,15 +24,32 @@ def get_random_pun():
         logger.error(f"Error: {e}")
         return f"Error: {e}"
 
-
+# In GHA
 if __name__ == "__main__":
     TIER = environ.get('WORK_POOL', 'dev')
     flow.from_source(
         "https://github.com/prefectcboyd/prefectcicd.git",
-        entrypoint="src/a_whole_new_flow:get_random_pun",
+        entrypoint="./src/a_whole_new_flow.py:get_random_pun",
     ).deploy(
         name=f"a_whole_new_flow_{TIER}",
         work_pool_name=f"{TIER}",
         build=False
     )
-#
+
+
+# # LOCAL Deploy
+# if __name__ == "__main__":
+#     TIER = 'dev'
+#     flow.from_source(
+#         source=GitRepository(
+#             url="https://github.com/prefectcboyd/prefectcicd.git",
+#             # branch=environ.get("BRANCH_REF", "feature-123").split('/')[-1]
+#             branch="feature-123"
+#         ),
+#         entrypoint="src/a_whole_new_flow:get_random_pun",
+#     ).deploy(
+#         name=f"a_whole_new_flow_{TIER}",
+#         work_pool_name=f"{TIER}",
+#         build=False
+#     )
+# #

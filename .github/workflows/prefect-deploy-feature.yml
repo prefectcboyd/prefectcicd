@@ -69,7 +69,6 @@ jobs:
         for file in $files; do
             echo "Running $file"
             python $file
-          fi
         done
       if: startsWith(github.ref, 'refs/heads/feature-')
 

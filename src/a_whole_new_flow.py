@@ -20,6 +20,7 @@ def get_random_pun():
         
         joke_data = response.json()
         logger.info(f"{joke_data.get('joke', 'No joke found')}")
+        logger.info(f"This is a fresh log entry")
     except requests.exceptions.RequestException as e:
         logger.error(f"Error: {e}")
         return f"Error: {e}"

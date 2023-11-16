@@ -71,7 +71,7 @@ jobs:
             python $file
           fi
         done
-      if: github.ref == 'refs/heads/feature-'
+      if: startsWith(github.ref, 'refs/heads/feature-')
 
     env:
       BRANCH_REF: ${{ github.ref }}

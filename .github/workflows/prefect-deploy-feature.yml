@@ -59,12 +59,18 @@ jobs:
         prefect cloud workspace set -w ${{ env.DEV_WORKSPACE }}
         echo "WORK_POOL=dev" >> $GITHUB_ENV
       if: startsWith(github.ref, 'refs/heads/feature-')
+
+    - name: Determine Current Branch
+      id: get-branch
+      run: echo "::set-output name=branch::$(echo ${GITHUB_REF#refs/heads/})"
+      
+    - name: Find Base Commit for Comparison
+      id: base-commit
+      run: echo "::set-output name=sha::$(git merge-base HEAD origin/${{ steps.get-branch.outputs.branch }})"
   
     - name: Find and Run Changed Python Files
       run: |
-        # Check for modified Python files
-        git fetch origin ${{ steps.get-branch.outputs.branch }} --depth=2
-        changed_files=$(git diff --name-only origin/${{ steps.get-branch.outputs.branch }}^ | grep '\.py$')
+        changed_files=$(git diff --name-only ${{ steps.base-commit.outputs.sha }} | grep '\.py$')
         echo "Changed Python files: $files"
         
         for file in $files; do

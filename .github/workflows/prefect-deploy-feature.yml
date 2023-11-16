@@ -9,8 +9,7 @@ env:
 on:
   push:
     branches: [ feature-* ]
-    paths:
-      - '**.py'
+
 
 jobs:
   deploy:
@@ -58,7 +57,19 @@ jobs:
         prefect cloud workspace set -w ${{ env.DEV_WORKSPACE }}
         echo "WORK_POOL=dev" >> $GITHUB_ENV
       if: startsWith(github.ref, 'refs/heads/feature-')
-  
+
+    - name: Find and Run Changed Python Files
+      run: |
+        # Check for modified Python files
+        files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '\.py$')
+        echo "Changed Python files: $files"
+        
+        for file in $files; do
+            echo "Running $file"
+            python $file
+          fi
+        done
+      if: github.ref == 'refs/heads/feature-*'
 
     env:
       BRANCH_REF: ${{ github.ref }}

@@ -63,7 +63,8 @@ jobs:
     - name: Find and Run Changed Python Files
       run: |
         # Check for modified Python files
-        files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '\.py$')
+        git fetch origin ${{ steps.get-branch.outputs.branch }} --depth=2
+        changed_files=$(git diff --name-only origin/${{ steps.get-branch.outputs.branch }}^ | grep '\.py$')
         echo "Changed Python files: $files"
         
         for file in $files; do

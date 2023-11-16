@@ -8,7 +8,7 @@ env:
 
 on:
   push:
-    branches: [ feature-* ]
+    branches: [ feature-*  ]
 
 
 jobs:
@@ -32,6 +32,7 @@ jobs:
       run: |
         pip install -r requirements.txt
 
+####### PROD #######
     - name: Switch to prod workspace
       run: |
         prefect cloud workspace set -w ${{ env.PROD_WORKSPACE }}
@@ -52,12 +53,13 @@ jobs:
         done
       if: github.ref == 'refs/heads/main'
 
+####### DEV #######
     - name: switch to dev
       run: |
         prefect cloud workspace set -w ${{ env.DEV_WORKSPACE }}
         echo "WORK_POOL=dev" >> $GITHUB_ENV
       if: startsWith(github.ref, 'refs/heads/feature-')
-
+  
     - name: Find and Run Changed Python Files
       run: |
         # Check for modified Python files
@@ -69,7 +71,7 @@ jobs:
             python $file
           fi
         done
-      if: github.ref == 'refs/heads/feature-*'
+      if: github.ref == 'refs/heads/feature-'
 
     env:
       BRANCH_REF: ${{ github.ref }}

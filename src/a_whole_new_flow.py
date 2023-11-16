@@ -34,5 +34,3 @@ if __name__ == "__main__":
         work_pool_name=f"{TIER}",
         build=False
     )
-
-# This changes the file

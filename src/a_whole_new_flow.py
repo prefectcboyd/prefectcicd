@@ -29,7 +29,7 @@ if __name__ == "__main__":
     TIER = environ.get('WORK_POOL', 'dev')
     flow.from_source(
         "https://github.com/prefectcboyd/prefectcicd.git",
-        entrypoint="./src/a_whole_new_flow.py:get_random_pun",
+        entrypoint="src/a_whole_new_flow.py:get_random_pun",
     ).deploy(
         name=f"a_whole_new_flow_{TIER}",
         work_pool_name=f"{TIER}",

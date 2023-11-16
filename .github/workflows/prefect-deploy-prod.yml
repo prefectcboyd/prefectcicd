@@ -34,14 +34,7 @@ jobs:
       run: |
         prefect cloud workspace set -w ${{ env.PROD_WORKSPACE }}
         echo "WORK_POOL=prod" >> $GITHUB_ENV
-      if: github.ref == 'refs/heads/main'
 
-    - name: switch to dev
-      run: |
-        prefect cloud workspace set -w ${{ env.DEV_WORKSPACE }}
-        echo "WORK_POOL=dev" >> $GITHUB_ENV
-      if: startsWith(github.ref, 'refs/heads/feature-')
-  
     # Prefect Deployment using deployment.py
     - name: Run Prefect Deployment
       run: |

@@ -1,8 +1,7 @@
-# prefectcicd
-Sets up a basic CI CD Pipeline
 # Prefect Build Workflow
 
-This GitHub Actions workflow automates the deployment process for Python applications using Prefect Cloud. The workflow is designed to handle different environments (Production and Development) based on the branch where the changes are pushed.
+This GitHub Actions workflow automates the deployment process for Python applications using Prefect Cloud.  
+The workflow is designed to handle different environments (Production and Development) based on the branch where the changes are pushed.
 
 Reviewing `.github/workflows`, there are two different possible GitHub actions, which match different triggers.  
 This is intended to provide different Prefect deployment mechanisms (`.deploy()` and `.build_from_flow()`).
@@ -10,14 +9,14 @@ This is intended to provide different Prefect deployment mechanisms (`.deploy()`
 ## Workflow Breakdown
 
 ### Environment Variables
-The workflow uses several environment variables, including `PREFECT_API_KEY`, `PREFECT_API_URL`, `PROD_WORKSPACE`, and `DEV_WORKSPACE`. These are set as secrets in the repository settings for security.  
+The workflow uses several environment variables, including `PREFECT_API_KEY`, `PREFECT_API_URL`, `PROD_WORKSPACE`, and `DEV_WORKSPACE`.  
+These are set as secrets in the repository settings for security.  
 With the API key and URL set, a `prefect cloud login` is not necessary.  
 Further, differentiating between workspaces (`dev` and `prod` or however your account is established) is only necessary if multiple workspaces are being utilized.  
 Your workspaces can be determined via `prefect cloud workspace ls` and should be saved in the form like `chrisbprefectio/dev`.
 
-
-*[Configuring API Settings](https://docs.prefect.io/latest/cloud/connecting/?h=api#manually-configure-prefect-api-settings)
-*[Prefect Workspace Login](https://docs.prefect.io/latest/cloud/connecting/?h=api#change-workspaces)
+* [Configuring API Settings](https://docs.prefect.io/latest/cloud/connecting/?h=api#manually-configure-prefect-api-settings)  
+* [Prefect Workspace Login](https://docs.prefect.io/latest/cloud/connecting/?h=api#change-workspaces)  
 
 ### Trigger
 There are two separate GitHub action workflows in this repository:
